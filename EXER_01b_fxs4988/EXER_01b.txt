@@ -1,0 +1,166 @@
+#-----------------------------------------------------------------
+Exercise 01b
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate working C development environment.
+
+  * Demonstrate ability to write a simple C function performing
+      the cross product operation.
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math you need is outlined in the Cross Product
+      handout on Canvas.
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download EXER_01b_dalioba.zip from Canvas.
+
+  2. Unzip this file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to YOUR NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'EXER_01b_abc1234' but with YOUR NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'EXER_01b_abc1234' directory.
+
+  5. Change the header lines in the file matrix.c.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. Compile thusly,
+
+    $ make
+    gcc -g -Wall -Wextra -fsanitize=address -c matrix.c
+    matrix.c: In function ‘vectorCrossVector’:
+    matrix.c:92:38: warning: unused parameter ‘a’ [-Wunused-parameter]
+       92 | void vectorCrossVector( const Vector a, const Vector b, Vector c )
+          |                         ~~~~~~~~~~~~~^
+    matrix.c:92:54: warning: unused parameter ‘b’ [-Wunused-parameter]
+       92 | void vectorCrossVector( const Vector a, const Vector b, Vector c )
+          |                                         ~~~~~~~~~~~~~^
+    matrix.c:92:64: warning: unused parameter ‘c’ [-Wunused-parameter]
+       92 | void vectorCrossVector( const Vector a, const Vector b, Vector c )
+          |                                                         ~~~~~~~^
+    gcc -g -Wall -Wextra -fsanitize=address -c matrixTest.c
+    gcc -fsanitize=address -o matrixTest matrix.o matrixTest.o -lm
+    $
+
+  7. You get those warnings because you haven't yet written the
+      body of the vectorCrossVector() routine.
+
+  8. Now edit matrix.c and put the proper code in the body of the
+      vectorCrossVector() routine.  (There is a TODO comment
+      describing what needs to be done.)
+
+  9. After you're done with that, remake and now run thusly,
+
+    $ make clean
+    rm -f matrixTest *.o
+    $ make
+    gcc -g -Wall -Wextra -fsanitize=address -c matrix.c
+    gcc -g -Wall -Wextra -fsanitize=address -c matrixTest.c
+    gcc -fsanitize=address -o matrixTest matrix.o matrixTest.o -lm
+    $ ./matrixTest
+    //-----------------------------------------------------------------
+    //-- p ----------
+                   2
+                   7
+                   1
+                   8
+
+    //-- 3 · p ------
+                   6
+                  21
+                   3
+                  24
+
+    .
+    .
+    .
+
+    //-- k × i ------
+                   0
+                   1
+                   0
+                   0
+
+    //-- k × j ------
+                  -1
+                   0
+                   0
+                   0
+
+    //-- k × k ------
+                   0
+                   0
+                   0
+                   0
+
+    //-----------------------------------------------------------------
+    $
+
+ 10. I've edited the output here for length.  The complete results
+      are shown in the file Results/matrixTestResults.txt.
+      Your results should match EXACTLY.  If they don't, STOP
+      RIGHT HERE and figure out what's wrong.  If this doesn't
+      work perfectly, there's no point going any further.
+
+     The results are all nine of the possible cross products
+      using the standard basis vectors i, j, and k.  These are
+      easy to compute in your head so checking that you're getting
+      the correct answers should be easy.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=address and deal with ANY warnings or
+     errors reported.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the matrix operations correctly.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values.  Use diff to ensure that
+      your output really does match EXACTLY.)
+
+  2. Ensure that you update the three header lines in the source
+     file with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+  3. This is not a large exercise.  There is only one (1!)
+      function body that has to be written.  It's in matrix.c
+      and is marked with a TODO comment.
+
+        matrix.c:94:  // TODO: Compute each of c[0] through c[2] using the a[0]
+
+      In the reference solution, the TODO code in the body of the
+      vectorCrossVector() routine is only four (4!) lines of code.
+      Easy!
+
+      Depending on how you format your code, you might have more
+      or fewer lines of code than this.  Don't get super-concerned
+      unless you find yourself writing zillions of lines of code.
+      If that's the case, you're probably off in the weeds.  Step
+      back and think about it a bit more.
+
+#-----------------------------------------------------------------

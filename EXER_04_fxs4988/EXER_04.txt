@@ -1,0 +1,197 @@
+#-----------------------------------------------------------------
+Exercise 04
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate working C development environment.  (Geez, don't
+      you have that working by this point?)
+
+  * Demonstrate ability to write JUST TWO simple C functions
+      representing the complete parallel and perspective
+      transformation operations.
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math you need in outlined in the Parallel and
+      Perspective Projection handouts on Canvas.
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download EXER_04_dalioba.zip from Canvas.
+
+  2. Unzip this file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to YOUR NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'EXER_04_abc1234' but with YOUR NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'EXER_04_abc1234' directory.
+
+  5. Change the header lines in the file transforms.c.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. Compile thusly,
+
+    $ make
+    gcc -g -Wall -Wextra -fsanitize=address -c matrix.c
+    gcc -g -Wall -Wextra -fsanitize=address -c matrixTest.c
+    gcc -fsanitize=address -o matrixTest matrix.o matrixTest.o -lm
+    gcc -g -Wall -Wextra -fsanitize=address -c transforms.c
+    transforms.c: In function ‘parallelProjectMatrix’:
+    transforms.c:44:39: warning: unused parameter ‘width’ [-Wunused-parameter]
+       44 | void parallelProjectMatrix( const int width, const int height, const FLOAT64 xmin, const FLOAT64 xmax, const FLOAT64 ymin, const FLOAT64 ymax, Matrix xform )
+          |                             ~~~~~~~~~~^~~~~
+    transforms.c:44:56: warning: unused parameter ‘height’ [-Wunused-parameter]
+       44 | void parallelProjectMatrix( const int width, const int height, const FLOAT64 xmin, const FLOAT64 xmax, const FLOAT64 ymin, const FLOAT64 ymax, Matrix xform )
+          |                                              ~~~~~~~~~~^~~~~~
+    transforms.c:44:78: warning: unused parameter ‘xmin’ [-Wunused-parameter]
+       44 | void parallelProjectMatrix( const int width, const int height, const FLOAT64 xmin, const FLOAT64 xmax, const FLOAT64 ymin, const FLOAT64 ymax, Matrix xform )
+          |                                                                ~~~~~~~~~~~~~~^~~~
+    transforms.c:44:98: warning: unused parameter ‘xmax’ [-Wunused-parameter]
+       44 | rallelProjectMatrix( const int width, const int height, const FLOAT64 xmin, const FLOAT64 xmax, const FLOAT64 ymin, const FLOAT64 ymax, Matrix xform )
+          |                                                                             ~~~~~~~~~~~~~~^~~~
+    .
+    .
+    .
+    $
+
+  7. I've edited the output here for length.  You get all those
+      warnings because you haven't yet written the bodies of the
+      parallelProjectMatrix() and perspectiveProjectMatrix()
+      routines.
+
+  8. Now edit transforms.c and put the proper code in each of the
+      TODO spots.
+
+  9. After you're done with that, remake and now run thusly,
+
+    $ make clean
+    rm -f matrixTest transformsTest *.o
+    $ make
+    gcc -g -Wall -Wextra -fsanitize=address -c matrix.c
+    gcc -g -Wall -Wextra -fsanitize=address -c matrixTest.c
+    gcc -fsanitize=address -o matrixTest matrix.o matrixTest.o -lm
+    gcc -g -Wall -Wextra -fsanitize=address -c transforms.c
+    gcc -g -Wall -Wextra -fsanitize=address -c transformsTest.c
+    gcc -fsanitize=address -o transformsTest matrix.o transforms.o transformsTest.o -lm
+    $ ./transformsTest
+    //-----------------------------------------------------------------
+    //-- pZero ------------------
+                   0
+                   0
+                   0
+                   1
+    //-- pHalf ------------------
+                 0.5
+                 0.5
+                 0.5
+                   1
+    //-- pX ---------------------
+                   1
+                   0
+                   0
+                   1
+
+    .
+    .
+    .
+
+    //-----------------------------------------------------------------
+    //-- parallel project 150, 100, 2.0, 8.0, -0.5, 3.5 ----
+             24.8333                0                0         -49.6667
+                   0            24.75                0           12.375
+                   0                0                0                0
+                   0                0                0                1
+
+    //-- perspective project 150, 100, -2.0, 2.0, -2.5, 2.5, 10.5 ----
+               37.25                0         -7.09524             74.5
+                   0             19.8         -4.71429             49.5
+                   0                0                0                0
+                   0                0       -0.0952381                1
+
+    //-----------------------------------------------------------------
+    $
+
+ 10. I've edited the output here for length.  The complete results
+      are shown in the file Results/transformsTest-results.txt.
+      Your results should match EXACTLY.  If they don't, STOP
+      RIGHT HERE and figure out what's wrong.  If this doesn't
+      work perfectly, there's no point going any further.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your programs compile and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=address and deal with ANY warnings or
+     errors reported.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the matrix and/or transform operations correctly.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values.  Use diff to ensure that
+      your output really does match EXACTLY.)
+
+  2. Ensure that you update the three header lines in the source
+     file with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+  3. This is not a large exercise.  There are only these TODO
+      spots that have to be filled in.
+
+        transforms.c:48:// TODO: We should return I4 as the transform if an error is
+        transforms.c:55:// TODO: Check the input parameters for correctness.  If any
+        transforms.c:62:// TODO: Put some definitions here.
+        transforms.c:66:// TODO: Put some calls to transform functions here.  Make any
+        transforms.c:72:// TODO: Do some matrix multiplications here.
+        transforms.c:80:// TODO: We should return I4 as the transform if an error is
+        transforms.c:88:// TODO: Check the input parameters for correctness.  If any
+        transforms.c:95:// TODO: Put some definitions here.
+        transforms.c:99:// TODO: Put some calls to transform functions here.  Make any
+        transforms.c:105:// TODO: Do some matrix multiplications here.
+
+      In the reference solution, the TODO code in the bodies of
+      these functions are only
+
+        transforms.c:48:   1 loc
+        transforms.c:55:  12 loc
+        transforms.c:62:   3 loc
+        transforms.c:66:   4 loc
+        transforms.c:72:   3 loc
+        transforms.c:80:   1 loc
+        transforms.c:88:  16 loc
+        transforms.c:95:   3 loc
+        transforms.c:99:   5 loc
+        transforms.c:105:  3 loc
+
+      for a grand total of 51 lines of code.  Easy!
+
+      (Hmm, we spend more code on just checking the correctness
+       of the parameters (28 loc) than we do computing the actual
+       transforms (23 loc).  Ha!)
+
+      Depending on how you format your code, you might have more
+      or fewer lines of code than this.  Do not get super-
+      concerned unless you find yourself writing zillions of
+      lines of code.  If that's the case, you're probably off in
+      the weeds.  Step back and think about it a bit more.
+
+#-----------------------------------------------------------------
